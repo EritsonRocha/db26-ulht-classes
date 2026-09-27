@@ -22,3 +22,12 @@ SELECT first_name AS Nome, last_name AS Apelido, phone AS Telefone, state AS 'Es
 --Lojas com o código postal 95060 e 75088
 SELECT store_name AS 'Loja', zip_code AS 'Codigo Postal' FROM sales.stores s WHERE s.zip_code = 95060 AND s.zip_code = 75088
 
+--Staff com serrano no email
+SELECT first_name AS nome, email FROM sales.staffs s WHERE s.email = '%serrano%'
+--staff sem manager
+SELECT first_name AS nome, manager_id FROM sales.staffs s WHERE s.manager_id IS NULL
+--numero termina em 55
+SELECT CONCAT(LEFT(first_name,1),'. ',last_name) AS staff_name, phone FROM sales.staffs s WHERE s.phone LIKE '%55'
+SELECT CONCAT(LEFT(first_name,1),'. ',last_name) AS staff_name FROM sales.staffs s WHERE s.first_name LIKE 'M%'
+
+--Exercícios 3.2
