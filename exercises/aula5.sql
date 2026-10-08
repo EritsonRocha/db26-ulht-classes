@@ -47,3 +47,12 @@ CREATE TABLE analytics.products_new2 ( --Outra tabela dentro do analytics
 INSERT INTO analytics.products_new2 (product_id, product_name, brand_id, category_id, model_year, list_price)
 VALUES (1, 'cyberBike', 1, 1, 2019, 1999)
 
+--Exercício para fazer agora
+CREATE DATABASE BikeStoresAnalytics
+USE BikeStoresAnalytics
+
+SELECT * FROM sys.databases
+
+CREATE SCHEMA "metrics"
+CREATE SCHEMA "events"
+SELECT * FROM sys.schemas WHERE name NOT LIKE 'db%'
