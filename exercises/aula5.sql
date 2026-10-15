@@ -58,13 +58,14 @@ CREATE SCHEMA "events"
 SELECT * FROM sys.schemas WHERE name NOT LIKE 'db%'
 
 CREATE TABLE metrics.info (
-    metrics_id INT IDENTITY(1, 1) PRIMARY KEY ,
+    metrics_id INT NOT NULL UNIQUE,
     metrics_name VARCHAR(255) NOT NULL,
-    category VARCHAR(50) NOT NULL UNIQUE,
+    category VARCHAR(50) UNIQUE,
     description VARCHAR (255),
-    metrics_val INT NOT NULL CHECK (metrics_val > 10),
-    dt DATETIME2 NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    metrics_val INT CHECK (metrics_val > 20),
+    dt DATETIME,
 );
+
 
 CREATE TABLE events.info (
     events_id INT IDENTITY(1, 1) PRIMARY KEY,
@@ -114,5 +115,31 @@ VALUES
 ;
 
 SELECT * FROM metrics.info;
-
 SELECT * FROM events.info;
+
+
+--Aula 6
+USE BikeStores
+SELECT customer_id, first_name, last_name, city, state INTO sales.allcustomers FROM sales.customers
+
+SELECT * FROM sales.allcustomers
+SELECT * FROM sales.customers
+
+SELECT * INTO sales.TexasCustomers FROM sales.customers WHERE state = 'TX'
+SELECT * FROM sales.TexasCustomers --Desvantagem: Apesar do backup, se ocorrer uma alteração no main, I'm fucked
+
+--Inserir de uma tabela que funcione
+TRUNCATE TABLE sales.TexasCustomers --Limpei a tabela toda
+SELECT * FROM sales.TexasCustomers
+
+SET IDENTITY_INSERT sales.TexasCustomers ON;
+
+INSERT INTO sales.TexasCustomers
+    (customer_id, first_name, last_name, phone, email, street, city, state, zip_code)
+SELECT
+    customer_id, first_name, last_name, phone, email, street, city, state, zip_code
+FROM sales.customers;
+
+CREATE VIEW stalking AS 
+SELECT customer_id, first_name, last_name
+FROM sales.TexasCustomers WHERE state = 'TX';
